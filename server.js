@@ -38,7 +38,19 @@ app.use('/route', router);
 
 // home route
 app.get('/', (req, res) =>{
-    res.render('base', { title : "Login System"});
+    if(req.session.user){
+        res.redirect("/route/dashboard");
+    }
+    if(req.session.validate){
+    res.render('base', { title : "Login System", validate : `${req.session.validate}`});
+    }else if(req.session.error){
+        res.render('base', { title : "Login System", error : `${req.session.error}`});
+    }else if(req.session.error && req.session.validate){
+        res.render('base', { title : "Login System", validate : `${req.session.validate}` , error : `${req.session.error}`});
+    }else{
+        res.render('base', { title : "Login System"});
+    }
+    req.session.destroy()
 })
 
 app.listen(port, ()=>{ console.log("Lostening to the server on http://localhost:3000")});

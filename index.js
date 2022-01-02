@@ -48,7 +48,6 @@ con.connect(function (err) {
   });
 
   app.post("/login", function (request, response) {
-    console.log(request.body);
     response.redirect("/");
   });
 });

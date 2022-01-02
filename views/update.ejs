@@ -1,0 +1,74 @@
+<%- include('header') -%>
+<%- include('nav') -%>
+<% if(locals.valid){ %>
+  <div class="alter alert-success text-center">
+  <%=valid %>
+</div>
+<%}%>
+<blockquote class="mt-2 blockquote text-center">
+    <p class="mb-0">QUESTION <%= locals.listResults[0].id %></p>
+    <footer class="blockquote-footer">Vous pouvez editer ou supprimer cette question.</cite></footer>
+  </blockquote>
+<div style="background-color:#FFFFFF;" class="container border rounded mt-5">
+    <a class="mt-2 btn btn-secondary stretched-link" href="/route/dashboard">Annuler <span class="sr-only">(current)</span></a>
+<form action="/route/update?id=<%= locals.listResults[0].id %>" id="myForm" method="POST" class="pt-3 pb-3">
+    <div class="form-group">
+        <label for="question">Question</label>
+        <input type="text" required class="form-control" placeholder='question' value="<%= locals.listResults[0].question %>" name="question">
+        <small class="form-text text-muted text-left"></small>
+    </div>
+    <div class="form-group">
+        <label for="texteR1">Reponse 1 :</label>
+        <input type="text" required class="form-control" placeholder='Réponse 1' value="<%= locals.listResults[0].texteR1 %>" name="texteR1">
+    </div>
+    <div class="form-group">
+        <label for="texteR2">Reponse 2 :</label>
+        <input type="text" required class="form-control" placeholder='Réponse 2' value="<%= locals.listResults[0].texteR2 %>" name="texteR2">
+    </div>
+    <div class="form-group">
+        <label for="texteR3">Reponse 3 :</label>
+        <input type="text" required class="form-control" placeholder='Réponse 3' value="<%= locals.listResults[0].texteR3 %>" name="texteR3">
+    </div>
+
+    <div class="form-group">
+        <label for="answers">Bonne réponse</label>
+        <select name="answers" required class="form-control" value="<%= locals.listResults[0].texteR3 %>" id="answer-select">
+            <option value="">--Please choose an option--</option>
+            <option value="1" <%if(locals.listResults[0].correct_answer == 1){%> selected <%}%>>Réponse 1</option>
+            <option value="2" <%if(locals.listResults[0].correct_answer == 2){%> selected <%}%>>Réponse 2</option>
+            <option value="3" <%if(locals.listResults[0].correct_answer == 3){%> selected <%}%>>Réponse 3</option>
+
+        </select>
+    </div>
+    <button type="submit" id="regbtn" class="btn btn-success rounded-pill">Modifier</button>
+
+</form>
+
+<!-- Button trigger modal -->
+<!-- <div class="mb-3" style="padding:0 3em;">
+<button type="button"  class="mt-2 btn btn-primary rounded-pill" data-toggle="modal" data-target="#exampleModal">
+    Supprimer la question
+  </button>
+</div>
+</div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Etes-vous vraiment sûr de vouloir supprimer cette question ?
+        </div>
+        <div class="modal-footer">
+          <a class="mt-2 btn btn-secondary stretched-link" href="#" onclick="$('#exampleModal').modal('hide')">Annuler</a>
+          <a class="mt-2 btn btn-danger stretched-link" href="/route/delete?id=<%= locals.listResults[0].id %>">Supprimer </a>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<%- include('footer') -%>

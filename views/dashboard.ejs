@@ -1,11 +1,68 @@
 <%- include('header') -%>
+<%- include('nav') -%>
 
-<div class="text-center center-div mt-5" id="login">
+<div class="text-center pt-5 mt-5" id="login">
     <div class="container w-25 border py-5 mt-5">
-        <h3>Welcome to Express Dashboard</h3>
+        <h3>Bienvenue sur la page IEFP</h3>
         <h5><%= locals.user ? user : "User" %></h5>
-        <a href="/route/logout">Logout</a>
     </div>
 </div>
-
+<div style="margin-top: 20px;" class="mb-5">
+  
+<%if(locals.listResults){%>
+  <div style="background-color:#FFFFFF;" class="container border rounded">
+    <% if(locals.valid){ %>
+      <div class="alter alert-success text-center">
+      <%=valid %>
+    </div>
+    <%}%>
+    
+    <a class="mt-2 mb-2 float-right btn btn-primary stretched-link" href="/route/add">Ajouter une question <span class="sr-only">(current)</span></a>
+    <div class="ZipDatatable">
+    <table style="background-color:#FFFFFF;" id="table" class="table table-striped table-bordered mb-3 mt-3" style="width:100%">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Question</th>
+              <th scope="col">Reponse 1 </th>
+              <th scope="col">Reponse 2</th>
+              <th scope="col">Reponse 3</th>
+              <th scope="col">Theme</th>
+              <th scope="col">Modifier</th>
+            </tr>
+          </thead>
+          <tbody>
+<% listResults.forEach(function (question) { %>
+    <tr>
+      <th scope="row"><%= question.id %></th>
+      <td><%= question.question %></td>
+      <td <%if(question.correct_answer == 1){%>class="text-primary"<%}%>><%= question.texteR1 %></td>
+      <td <%if(question.correct_answer == 2){%>class="text-primary"<%}%>><%= question.texteR2 %></td>
+      <td <%if(question.correct_answer == 3){%>class="text-primary"<%}%>><%= question.texteR3 %></td>
+      <td style="text-transform: capitalize;"><%= question.val %></td>
+      <td><a class="btn btn-sm btn-success" href="/route/update?id=<%= question.id %>" role="button">Modifier</a></td>
+    </tr>
+  <% }) %>
+</tbody>
+<tfoot>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Question</th>
+    <th scope="col">Reponse 1 </th>
+    <th scope="col">Reponse 2</th>
+    <th scope="col">Reponse 3</th>
+    <th scope="col">Theme</th>
+    <th scope="col">Modifier</th>
+  </tr>
+</tfoot>
+</table>
+</div>
+</div>
+</div>
+  <% } %>
+  <script>
+    $(document).ready(function() {
+        $('#table').DataTable();
+    } );
+    </script>
 <%- include('footer') -%>
