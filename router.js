@@ -18,17 +18,14 @@ con.connect(function (err) {
   // login user
   router.post("/login", (req, res) => {
     con.query(
-      `SELECT motdepasse FROM utilisateur WHERE username='${req.body.email}'`,
+      `SELECT * FROM utilisateur WHERE username='${req.body.email}'`,
       function (err, result) {
         if (err) throw err;
-
+        if(result.length!=0){
         // // AJOUTER LA VERIF DU PASS PAR RAPPORT AU HASH
-
-        hash = bcrypt.hashSync(`${req.body.password}`, salt);
-
+        hash = bcrypt.hashSync(req.body.password, salt);
         if (
-          result.length != 0 &&
-          bcrypt.compareSync(result[0].motdepasse, hash)
+          bcrypt.compareSync(`${req.body.password}`, `${result[0].motdepasse}`)
         ) {
           req.session.user = req.body.email;
           res.redirect("/route/dashboard");
@@ -36,8 +33,14 @@ con.connect(function (err) {
           req.session.error = `Votre nom d'utilisateur ou votre mot de passe est incorrect`;
           res.redirect("/");
         }
+      }else{
+        req.session.error = `Votre nom d'utilisateur ou votre mot de passe est incorrect`;
+        res.redirect("/");
+      };
       }
+      
     );
+  
   });
 
   router.get("/register", (req, res) => {
@@ -62,12 +65,11 @@ con.connect(function (err) {
 
   router.post("/add", (req, res) => {
     if (req.session.user) {
-      var sql = `INSERT INTO question (question, texteR1, texteR2, texteR3, correct_answer, difficulty,value, id_theme ) VALUES ('${req.body.question}', '${req.body.texteR1}','${req.body.texteR2}','${req.body.texteR3}','${req.body.answers}','${req.body.difficulty}','${req.body.difficulty}','${req.body.theme}')`;
+      var sql = `INSERT INTO question (question, texteR1, texteR2, texteR3, correct_answer, difficulty,value , id_theme ) VALUES ('${req.body.question}', '${req.body.texteR1}','${req.body.texteR2}','${req.body.texteR3}',${req.body.answers},${req.body.difficulty},${req.body.difficulty},${req.body.theme})`;
       con.query(sql, function (err, result) {
-        console.log(result);
         req.session.valid;
         if (err) throw err;
-        res.redirect(`/route/dahsboard?valid='created'`);
+        res.redirect(`/route/dashboard?valid='created'`);
       });
     } else {
       res.render("404");
@@ -110,13 +112,16 @@ con.connect(function (err) {
   });
 
   router.post("/register", (req, res) => {
-    var sql = `SELECT COUNT(*) from utilisateur WHERE username = '${req.body.email}'`;
+    var sql = `SELECT * from utilisateur WHERE username = '${req.body.email}'`;
     con.query(sql, function (err, result) {
-        if(result!=0){
+      console.log(result.length)
+        if(result.length != 0){
             req.session.error = "Un compte avec cet email existe déjà";
             res.redirect("/route/register?status=exist");
         }else{
       var hash = bcrypt.hashSync(`${req.body.password}`, salt);
+      console.log(req.body)
+      console.log(hash)
 if(req.body.email && req.body.password){
       var sql = `INSERT INTO utilisateur (username, motdepasse, role) VALUES ('${req.body.email}', '${hash}','superadmin')`;
       con.query(sql, function (err, result) {
@@ -137,7 +142,7 @@ if(req.body.email && req.body.password){
   router.get("/dashboard", (req, res) => {
     if (req.session.user) {
       con.query(
-        `SELECT * FROM question INNER JOIN theme ON question.id_theme = theme.id`,
+        `SELECT * FROM user_theme`,
         function (err, result) {
           console.log(result);
           if (err) throw err;

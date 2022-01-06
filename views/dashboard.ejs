@@ -39,7 +39,7 @@
       <td <%if(question.correct_answer == 1){%>class="text-primary"<%}%>><%= question.texteR1 %></td>
       <td <%if(question.correct_answer == 2){%>class="text-primary"<%}%>><%= question.texteR2 %></td>
       <td <%if(question.correct_answer == 3){%>class="text-primary"<%}%>><%= question.texteR3 %></td>
-      <td style="text-transform: capitalize;"><%= question.val %></td>
+      <td style="text-transform: capitalize;"><%= question.theme %></td>
       <td><a class="btn btn-sm btn-success" href="/route/update?id=<%= question.id %>" role="button">Modifier</a></td>
     </tr>
   <% }) %>
