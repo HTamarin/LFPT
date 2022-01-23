@@ -18,7 +18,7 @@ con.connect(function (err) {
   // login user
   router.post("/login", (req, res) => {
     con.query(
-      `SELECT * FROM utilisateur WHERE username='${req.body.email}'`,
+      `SELECT * FROM utilisateur WHERE username=?`,[req.body.email],
       function (err, result) {
         if (err) throw err;
         if (result.length != 0) {
@@ -67,8 +67,9 @@ con.connect(function (err) {
 
   router.post("/add", (req, res) => {
     if (req.session.user) {
-      var sql = `INSERT INTO question (question, texteR1, texteR2, texteR3, correct_answer, difficulty,value , id_theme ) VALUES ('${req.body.question.replace("'", "\'")}', '${req.body.texteR1.replace("'", "\'")}','${req.body.texteR2.replace("'", "\'")}','${req.body.texteR3.replace("'", "\'")}',${req.body.answers},${req.body.difficulty},${req.body.difficulty},${req.body.theme})`;
-      con.query(sql, function (err, result) {
+      var sql = `INSERT INTO question (question, texteR1, texteR2, texteR3, correct_answer, difficulty,value , id_theme ) VALUES (?,?,?,?,?,?,?,?)`;
+      var value = [req.body.question.replace("'", "\'"), req.body.texteR1.replace("'", "\'"),req.body.texteR2.replace("'", "\'"),req.body.texteR3.replace("'", "\'"),req.body.answers,req.body.difficulty,req.body.difficulty,req.body.theme]
+      con.query(sql,value, function (err, result) {
         req.session.valid;
         if (err) throw err;
         res.redirect(`/route/dashboard?valid='created'`);
@@ -80,11 +81,11 @@ con.connect(function (err) {
 
   router.get("/update", (req, res) => {
     if (req.session.user) {
-      var sql = `SELECT * FROM question WHERE id=${req.query.id}`;
+      var sql = `SELECT * FROM question WHERE id=?`;
       if (req.query.valid) {
         res.locals.valid = "La question a bien été modifiée";
       }
-      con.query(sql, function (err, result) {
+      con.query(sql,req.query.id, function (err, result) {
         res.render("update", {
           title: "Modifier",
           listResults: result,
@@ -98,8 +99,9 @@ con.connect(function (err) {
 
   router.post("/update", (req, res) => {
     if (req.session.user) {
-      var sql = `UPDATE question SET question='${req.body.question.replace("'", "''")}',texteR1='${req.body.texteR1.replace("'","''")}',texteR2='${req.body.texteR2.replace("'", "''")}',texteR3='${req.body.texteR3.replace("'", "''")}',correct_answer=${req.body.answers} WHERE id=${req.query.id}`;
-      con.query(sql, function (err, result) {
+      var sql = `UPDATE question SET question=?,texteR1=?,texteR2=?,texteR3=?,correct_answer=? WHERE id=?`;
+      var value = [req.body.question.replace("'", "''"),req.body.texteR1.replace("'","''"),req.body.texteR2.replace("'", "''"),req.body.texteR3.replace("'", "''"),req.body.answers,req.query.id]
+      con.query(sql,value, function (err, result) {
         if (err) throw err;
         res.redirect(`/route/update?id=${req.query.id}&valid='created'`);
       });
@@ -114,16 +116,17 @@ con.connect(function (err) {
   });
 
   router.post("/register", (req, res) => {
-    var sql = `SELECT * from utilisateur WHERE username = '${req.body.email}'`;
-    con.query(sql, function (err, result) {
+    var sql = `SELECT * from utilisateur WHERE username = ?`;
+    con.query(sql,[req.body.email], function (err, result) {
       if (result.length != 0) {
         req.session.error = "Un compte avec cet email existe déjà";
         res.redirect("/route/register?status=exist");
       } else {
         var hash = bcrypt.hashSync(`${req.body.password}`, salt);
         if (req.body.email && req.body.password) {
-          var sql = `INSERT INTO utilisateur (username, motdepasse, role) VALUES ('${req.body.email}', '${hash}','superadmin')`;
-          con.query(sql, function (err, result) {
+          var sql = `INSERT INTO utilisateur (username, motdepasse, role) VALUES (?,?,'admin')`;
+          var value = [req.body.email, hash]
+          con.query(sql,value, function (err, result) {
             if (err) throw err;
             console.log("1 record inserted");
             req.session.validate = "Votre compte a bien été créé";
