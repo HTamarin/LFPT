@@ -143,7 +143,7 @@ con.connect(function (err) {
   // route for dashboard
   router.get("/dashboard", (req, res) => {
     if (req.session.user) {
-      con.query(`SELECT * FROM user_theme`, function (err, result) {
+      con.query(`SELECT * FROM question INNER JOIN theme ON question.id_theme = theme.id`, function (err, result) {
         if (err) throw err;
         if (req.query.valid) {
           res.locals.valid = "Votre question a bien été créée";
