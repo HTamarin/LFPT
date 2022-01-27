@@ -7,7 +7,7 @@ const mysql = require("mysql");
 const con = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "password",
   database: "supereuro",
 });
 
@@ -143,7 +143,8 @@ con.connect(function (err) {
   // route for dashboard
   router.get("/dashboard", (req, res) => {
     if (req.session.user) {
-      con.query(`SELECT * FROM question INNER JOIN theme ON question.id_theme = theme.id`, function (err, result) {
+      con.query(`SELECT question.*,theme.val FROM question INNER JOIN theme ON question.id_theme = theme.id`, function (err, result) {
+        console.log(result)
         if (err) throw err;
         if (req.query.valid) {
           res.locals.valid = "Votre question a bien été créée";
