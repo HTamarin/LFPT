@@ -25,10 +25,10 @@ DROP TABLE IF EXISTS `game`;
 CREATE TABLE `game` (
   `id` int NOT NULL AUTO_INCREMENT,
   `date` datetime(6) DEFAULT NULL,
-  `type` varchar(50) DEFAULT NULL,
+  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `score` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,10 +52,10 @@ CREATE TABLE `game_stats` (
   `id_user` int NOT NULL,
   `id_game` int NOT NULL,
   `id_question` int NOT NULL,
-  `answer` varchar(50) DEFAULT NULL,
+  `answer` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `date` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,17 +78,17 @@ CREATE TABLE `question` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_theme` int NOT NULL,
   `difficulty` int NOT NULL,
-  `question` varchar(255 DEFAULT NULL,
-  `image` varchar(255)  DEFAULT NULL,
+  `question` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `value` bigint DEFAULT NULL,
-  `texteR1` varchar(50)  DEFAULT NULL,
-  `texteR2` varchar(50)  DEFAULT NULL,
-  `texteR3` varchar(50)  DEFAULT NULL,
+  `texteR1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `texteR2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `texteR3` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `correct_answer` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_question_theme` (`id_theme`),
   CONSTRAINT `FK_question_theme` FOREIGN KEY (`id_theme`) REFERENCES `theme` (`id`)
-) ;
+) ENGINE=InnoDB AUTO_INCREMENT=322 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,8 +115,8 @@ CREATE TABLE `sysdiagrams` (
   `version` int DEFAULT NULL,
   `definition` longblob,
   PRIMARY KEY (`diagram_id`),
-  UNIQUE KEY `UK_principal_name` (`principal_id`,`name`);
-) ;
+  UNIQUE KEY `UK_principal_name` (`principal_id`,`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +139,7 @@ CREATE TABLE `theme` (
   `id` int NOT NULL,
   `val` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +188,7 @@ CREATE TABLE `utilisateur` (
   `role` varchar(50) DEFAULT 'appli',
   `pseudo` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
