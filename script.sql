@@ -135,7 +135,6 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user_theme`;
 
-SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `utilisateur`
