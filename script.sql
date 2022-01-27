@@ -28,7 +28,7 @@ CREATE TABLE `game` (
   `type` varchar(50) DEFAULT NULL,
   `score` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) 
+) ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
