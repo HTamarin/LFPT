@@ -85,26 +85,6 @@ UNLOCK TABLES;
 -- Table structure for table `sysdiagrams`
 --
 
-DROP TABLE IF EXISTS `sysdiagrams`;
-
-CREATE TABLE `sysdiagrams` (
-  `name` varchar(160) NOT NULL,
-  `principal_id` int NOT NULL,
-  `diagram_id` int NOT NULL,
-  `version` int DEFAULT NULL,
-  `definition` longblob,
-  PRIMARY KEY (`diagram_id`),
-  UNIQUE KEY `UK_principal_name` (`principal_id`,`name`);
-) ;
-
-
---
--- Dumping data for table `sysdiagrams`
---
-
-LOCK TABLES `sysdiagrams` WRITE;
-
-UNLOCK TABLES;
 
 --
 -- Table structure for table `theme`
