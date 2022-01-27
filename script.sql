@@ -72,13 +72,13 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `question`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `question` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_theme` int NOT NULL,
   `difficulty` int NOT NULL,
-  `question` varchar(255 DEFAULT NULL,
+  `question` varchar(255) DEFAULT NULL,
   `image` varchar(255)  DEFAULT NULL,
   `value` bigint DEFAULT NULL,
   `texteR1` varchar(50)  DEFAULT NULL,
