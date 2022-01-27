@@ -158,7 +158,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user_theme`;
 /*!50001 DROP VIEW IF EXISTS `user_theme`*/;
-SET @saved_cs_client     = @@character_set_client;
+/*SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
 /*!50001 CREATE VIEW `user_theme` AS SELECT 
  1 AS `id`,
